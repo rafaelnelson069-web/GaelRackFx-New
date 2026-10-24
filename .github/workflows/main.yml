@@ -1,0 +1,25 @@
+name: Build GaelRackFx
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup CMake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.31.6'
+
+      - name: Configure project
+        run: cmake -S . -B build -G Ninja
+
+      - name: Build project
+        run: cmake --build build --config Release --parallel 2
